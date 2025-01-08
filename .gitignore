@@ -1,0 +1,5 @@
+# Nix
+flake.lock
+
+# direnv
+.direnv/

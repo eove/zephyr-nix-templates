@@ -1,0 +1,12 @@
+# direnv
+.direnv/
+
+# zephyr
+build/
+modules/
+.west/
+zephyr/
+
+# cache
+.ccls-cache/
+.compile-commands.json

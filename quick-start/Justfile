@@ -1,0 +1,24 @@
+# Board name to build the app for.
+board := "stm32u5a9j_dk"
+
+# The runner to flash the board.
+runner := "openocd"
+
+# The output directory.
+output := "build"
+
+# Print this message.
+help:
+    @just --list
+
+# Build the app for the given board.
+build:
+    @west build -b {{board}} -d {{output}} app
+
+# Flash the app to the given board.
+flash: build
+    @west flash --runner {{runner}}
+
+# Clean the output directory (wipe all build data).
+mrproper:
+    @rm -rf {{output}}
