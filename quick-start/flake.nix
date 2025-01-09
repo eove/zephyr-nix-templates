@@ -58,16 +58,12 @@
               ripgrep
 
               # Probes.
-              openocd-cubeide
-
-              # Simulation.
-              qemu
+              probe-rs-tools
             ];
             
             LIBCLANG_PATH = "${pkgs.llvmPackages_17.libclang.lib}/lib";
 
             shellHook = ''
-
               # Install aliases.
               alias ll="eza -l --git --icons"
               alias la="eza -l -a --git --icons"
