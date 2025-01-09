@@ -1,7 +1,8 @@
 {
   description = "Nix templates for Zephyr development";
 
-  outputs = {
+  outputs = { self }:
+  {
     templates = {
       quick-start = {
         path = ./quick-start;
