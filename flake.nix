@@ -6,11 +6,12 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, flake-utils, nixpkgs-unstable }:
-    flake-utils.lib.eachDefaultSystem (system:
-    let
-      pkgs = import nixpkgs-unstable { inherit system; };
-    in
+  outputs =
+    {
+      self,
+      flake-utils,
+      nixpkgs-unstable,
+    }:
     {
       templates = {
         quick-start = {
@@ -18,11 +19,18 @@
           description = "A basic quick start";
         };
       };
-
-      devShells.default = pkgs.mkShell {
-        packages = with pkgs; [
-          statix
-        ];
-      };
-    });
+    }
+    // flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs-unstable { inherit system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            statix
+          ];
+        };
+      }
+    );
 }
