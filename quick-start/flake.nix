@@ -17,11 +17,25 @@
     };
   };
 
-  outputs = { nixpkgs-unstable, flake-utils, zephyr-nix, zephyr-src, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      nixpkgs-unstable,
+      flake-utils,
+      zephyr-nix,
+      zephyr-src,
+      ...
+    }@inputs:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         overlays = [
-          (final: _: import ./pkgs { inherit (final) pkgs; inherit inputs; })
+          (
+            final: _:
+            import ./pkgs {
+              inherit (final) pkgs;
+              inherit inputs;
+            }
+          )
         ];
 
         pkgs = import nixpkgs-unstable { inherit overlays system; };
@@ -31,45 +45,45 @@
           targets = [ "arm-zephyr-eabi" ];
         };
       in
-        {
-          devShells.default = pkgs.mkShell {
-            packages = with pkgs; [
-              # Load the python environment for Zephyr.
-              # zephyr-nix'.pythonEnv
+      {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            # Load the python environment for Zephyr.
+            # zephyr-nix'.pythonEnv
 
-              # Install python and west from nix.
-              python312
-              python312Packages.west
-              python312Packages.pyelftools
+            # Install python and west from nix.
+            python312
+            python312Packages.west
+            python312Packages.pyelftools
 
-              # Zephyr SDK.
-              zephyr-sdk
+            # Zephyr SDK.
+            zephyr-sdk
 
-              # Build dependencies.
-              dtc
-              cmake
-              ninja
-              pkg-config
+            # Build dependencies.
+            dtc
+            cmake
+            ninja
+            pkg-config
 
-              # Utilities.
-              eza
-              fd
-              just
-              ripgrep
+            # Utilities.
+            eza
+            fd
+            just
+            ripgrep
 
-              # Probes.
-              probe-rs-tools
-            ];
-            
-            LIBCLANG_PATH = "${pkgs.llvmPackages_17.libclang.lib}/lib";
+            # Probes.
+            probe-rs-tools
+          ];
 
-            shellHook = ''
-              # Install aliases.
-              alias ll="eza -l --git --icons"
-              alias la="eza -l -a --git --icons"
-              alias find=fd
-            '';
-          };
-        }
+          LIBCLANG_PATH = "${pkgs.llvmPackages_17.libclang.lib}/lib";
+
+          shellHook = ''
+            # Install aliases.
+            alias ll="eza -l --git --icons"
+            alias la="eza -l -a --git --icons"
+            alias find=fd
+          '';
+        };
+      }
     );
 }
