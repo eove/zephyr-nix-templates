@@ -1,8 +1,8 @@
 # Board name to build the app for.
 board := "stm32u5a9j_dk"
 
-# The runner to flash the board.
-runner := "openocd"
+# The chip to flash the board.
+chip := "STM32U5A9NJ"
 
 # The output directory.
 output := "build"
@@ -17,7 +17,7 @@ build:
 
 # Flash the app to the given board.
 flash: build
-    @west flash --runner {{runner}}
+    @probe-rs download --chip {{chip}} --verify {{output}}/zephyr/zephyr.elf
 
 # Clean the output directory (wipe all build data).
 mrproper:
