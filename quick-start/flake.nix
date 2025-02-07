@@ -65,6 +65,10 @@
             ninja
             pkg-config
 
+            # Native sim dependencies
+            gcc_multi
+            glibc_multi
+
             # Utilities.
             eza
             fd
